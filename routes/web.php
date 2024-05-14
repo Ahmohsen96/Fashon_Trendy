@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Livewire\AboutComponent;
 use App\Http\Livewire\Admin\AdminAddCategoryComponent;
 use App\Http\Livewire\Admin\AdminAddHomeSlideComponent;
 use App\Http\Livewire\Admin\AdminAddProductComponent;
@@ -56,6 +57,8 @@ Route::get('/checkout', CheckoutComponent::class)->name('shop.checkout');
 Route::get('/product-category/{slug}', CategoryComponent::class)->name('product.category');
 
 Route::get('/search', SearchComponent::class)->name('product.search');
+
+Route::get('/about', AboutComponent::class)->name('about');
 
 
 Route::get('/thank-you', ThankyouComponent::class)->name('thankyou');

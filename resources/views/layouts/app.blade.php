@@ -293,7 +293,7 @@
                             <nav>
                                 <ul>
                                     <li><a  href="/">{{ trans('home.Home') }} </a></li>
-                                    <li><a href="about.html">{{ trans('home.About') }}</a></li>
+                                    <li><a href="{{ route('about') }}">{{ trans('home.About') }}</a></li>
                                     <li><a href="{{ route('shop') }}">{{ trans('home.Shop') }}</a></li>
                                     <li class="position-static"><a href="#">{{ trans('home.Our Collections') }} <i class="fi-rs-angle-down"></i></a>
                                         <ul class="mega-menu">
