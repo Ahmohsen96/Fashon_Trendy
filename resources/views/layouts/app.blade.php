@@ -357,6 +357,7 @@
                                             <li><a href="{{route('admin.products')}}">Products</a></li>
                                             <li><a href="{{route('admin.categories')}}">Categories</a></li>
                                             <li><a href="{{route('admin.home.slider')}}">Home Slider</a></li>
+                                            <li><a href="{{route('admin.contact')}}">Contact message</a></li>
                                             <li><a href="#">Coupons</a></li>
                                             <li><a href="{{route('admin.orders')}}">Orders</a></li>
                                             <li><a href="#">Customers</a></li>
