@@ -51,6 +51,18 @@
                         <p class="text-danger">{{ $message   }}</p>
                         @enderror
                       </div>
+                      <div class="form-group">
+                        <label class="col-md-4 control-label">Parent Category</label>
+                        <div class="col-md-4">
+                            <select class="form-control input-md" wire:model="category_id">
+                                {{-- The wire:model attribute is used to bind the selected value to the category_id property in the Livewire component. --}}
+                                <option value="">None</option>
+                                @foreach($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                        <button type="submit" class="btn btn-primary float-end">submit</button>
                     </form>
 

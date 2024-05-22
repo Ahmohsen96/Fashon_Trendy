@@ -6,6 +6,17 @@
         nav .hidden{
             display: block;
         }
+        .sclist{
+            list-style: none;
+        }
+        .sclist li{
+            line-height: 33px;
+            border-bottom: 1px solid #ccc;
+        }
+        .slink i{
+            font-size:16px;
+            margin-left:12px;
+        }
     </style>
     <main class="main">
         <div class="page-header breadcrumb-wrap">
@@ -41,6 +52,7 @@
                      <th>#</th>
                      <th>name</th>
                        <th>slug</th>
+                        <th>sub category</th>
                         <th>action</th>
                       </tr>
                       </thead>
@@ -53,7 +65,22 @@
     <td>{{  $category->name  }}</td>
     <td>{{  $category->slug }}</td>
     <td>
-        <a href="{{route('admin.categories.edit',['category_id'=>$category->id])}}" class="text-info">Edit</a>
+        <ul class="sclist">
+            @foreach($category->subCategories as $scategory)
+                <li><i class="fa fa-caret-right"></i> {{$scategory->name}}
+                    <a href="{{route('admin.categories.edit',['category_slug'=>$category->slug,'scategory_slug'=>$scategory->slug])}}" class="text-info"><i class="fa fa-edit"></i> Edit</a>
+                    <a href="#" onclick="confirm('Are you sure you want to delete this subcategory?') || event.stopImmediatePropagation()" wire:click.prevent="deleteSubcategory({{$scategory->id}})" class="slink"><i class="fa fa-trash text-danger"></i> Delete</a>
+
+
+
+
+
+                </li>
+            @endforeach
+        </ul>
+    </td>
+    <td>
+        <a href="{{route('admin.categories.edit',['category_slug'=>$category->slug])}}" class="text-info">Edit</a>
         <a href="#" class="text-danger" style="margin-left:20px;" onclick="deleteConfirmation({{ $category->id}})">Delete</a>
     </td>
                      </tr>
@@ -99,6 +126,7 @@ function deleteCategory(){
 
 
 }
+
 </script>
 
 @endpush

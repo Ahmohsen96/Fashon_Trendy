@@ -6,6 +6,10 @@
         nav .hidden{
             display: block;
         }
+        .toggle-control {
+    float: right;
+    margin-right: 10px;
+}
     </style>
 
       <main class="main">
@@ -23,9 +27,9 @@
                     <div class="col-lg-9">
                         <div class="shop-product-fillter">
                             <div class="totall-product">
-                                
+
                                 <p> We found <strong class="text-brand">{{$products->total() }}</strong> items for you!</p>
-                                
+
 
                             </div>
                             <div class="sort-by-product-area">
@@ -120,7 +124,7 @@
                             <div class="col-lg-12 col-mg-6"></div>
                             <div class="col-lg-12 col-mg-6"></div>
                         </div>
-                        <div class="widget-category mb-30">
+                        {{-- <div class="widget-category mb-30">
                             <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
                             <ul class="categories">
                            @foreach($categories as $category)
@@ -128,7 +132,53 @@
 
                            @endforeach
 
+                        </div> --}}
+                        {{-- <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30 wow fadeIn animated">Category</h5>
+                            <div class="widget-content">
+                                <ul class="list-category">
+                                    @foreach ($categories as $category)
+                                    <li class="category-item {{count($category->subCategories) > 0 ? 'has-child-cate':''}}">
+                                        <a href="{{route('product.category',['slug'=>$category->slug])}}" class="cate-link">{{$category->name}}</a>
+                                        @if(count($category->subCategories)>0)
+                                            <span class="toggle-control">+</span>
+                                            <ul class="sub-cate">
+                                                @foreach($category->subCategories as $scategory)
+                                                    <li class="category-item">
+                                                        <a href="#" class="cat-link"><i class="fa fa-caret-right"></i> {{$scategory->name}}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div> --}}
+                        <!-- Category Widget -->
+                        <div class="widget-category mb-30">
+                            <h5 class="section-title style-1 mb-30">Category</h5>
+                            <div class="widget-content">
+                                <ul class="list-category">
+                                    @foreach ($categories as $category)
+                                        <li class="category-item {{ count($category->subCategories) > 0? 'has-child-cate' : '' }}">
+                                            <a href="{{route('product.category',['slug'=>$category->slug])}}" class="cate-link">{{ $category->name }}</a>
+                                            @if (count($category->subCategories) > 0)
+                                                <button class="toggle-control">+</button>
+                                                <ul class="sub-cate" style="display: none;">
+                                                    @foreach($category->subCategories as $scategory)
+                                                        <li class="category-item">
+                                                            <a href="#" class="cat-link"><i class="fa fa-caret-right"></i> {{ $scategory->name }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
+  <!-- End Category Widget -->
                         <!-- Fillter By Price -->
                         <div class="sidebar-widget price_range range mb-30">
                             <div class="widget-header position-relative mb-20 pb-10">
@@ -194,7 +244,7 @@
                             </div>
                             @endforeach
 
-                           
+
                         </div>
                         <div class="banner-img wow fadeIn mb-45 animated d-lg-block d-none">
                             <img src="assets/imgs/banner/banner-11.jpg" alt="">
@@ -227,6 +277,25 @@
             });
         });
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var toggleControls = document.querySelectorAll('.toggle-control');
+
+    toggleControls.forEach(function(toggleControl) {
+        toggleControl.addEventListener('click', function() {
+            var subCate = this.parentElement.querySelector('.sub-cate');
+            if (subCate.style.display === 'none') {
+                subCate.style.display = 'block';
+                this.textContent = '-';
+            } else {
+                subCate.style.display = 'none';
+                this.textContent = '+';
+            }
+        });
+    });
+});
+</script>
     @endpush
 
 
