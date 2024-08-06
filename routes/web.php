@@ -1,20 +1,24 @@
 <?php
 
+use App\Http\Controllers\GoogleSocialiteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\AboutComponent;
+use App\Http\Livewire\Admin\AdminAddAttributeComponent;
 use App\Http\Livewire\Admin\AdminAddCategoryComponent;
 use App\Http\Livewire\Admin\AdminAddHomeSlideComponent;
 use App\Http\Livewire\Admin\AdminAddProductComponent;
+use App\Http\Livewire\Admin\AdminAttributesComponent;
 use App\Http\Livewire\Admin\AdminCategoriesComponent;
 use App\Http\Livewire\Admin\AdminContactComponent;
 use App\Http\Livewire\Admin\AdminDashboardComponent;
+use App\Http\Livewire\Admin\AdminEditAttributeComponent;
 use App\Http\Livewire\Admin\AdminEditCategoryComponent;
 use App\Http\Livewire\Admin\AdminEditHomeSlideComponent;
+
 use App\Http\Livewire\Admin\AdminEditProductComponent;
 use App\Http\Livewire\Admin\AdminHomeSliderComponent;
 use App\Http\Livewire\Admin\AdminOrderComponent;
 use App\Http\Livewire\Admin\AdminOrderDetailsComponent;
-
 use App\Http\Livewire\Admin\AdminProductComponent;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CategoryComponent;
@@ -29,6 +33,10 @@ use App\Http\Livewire\User\UserDashboardComponent;
 use App\Http\Livewire\User\UserOrderDetailsComponent;
 use App\Http\Livewire\User\UserOrdersComponent;
 use Illuminate\Support\Facades\Route;
+
+
+
+
 
 
 /*
@@ -66,6 +74,9 @@ Route::get('/about', AboutComponent::class)->name('about');
 Route::get('/thank-you', ThankyouComponent::class)->name('thankyou');
 Route::get('/contact', ContactComponent::class)->name('contact');
 
+Route::get('auth/google', [GoogleSocialiteController::class, 'redirectToGoogle']);
+Route::get('callback/google', [GoogleSocialiteController::class, 'handleCallback']);
+
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
@@ -90,6 +101,10 @@ Route::middleware(['auth', 'authadmin'])->group(function () {
     Route::get('/admin/orders', AdminOrderComponent::class)->name('admin.orders');
     Route::get('/admin/orders/{order_id}', AdminOrderDetailsComponent::class)->name('admin.orderdetails');
     Route::get('/admin/contact', AdminContactComponent::class)->name('admin.contact');
+
+    Route::get('/admin/attributes',AdminAttributesComponent::class)->name('admin.attributes');
+Route::get('/admin/attribute/add',AdminAddAttributeComponent::class)->name('admin.add_attribute');
+Route::get('/admin/attribute/edit/{attribute_id}',AdminEditAttributeComponent::class)->name('admin.edit_attribute');
 
 
 });

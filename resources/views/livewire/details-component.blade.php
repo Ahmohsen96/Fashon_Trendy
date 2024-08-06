@@ -115,14 +115,15 @@
                                         <div class="short-desc mb-30">
                                             <p>{{$product->short_description }}<</p>
                                         </div>
-                                        {{-- <div class="product_sort_info font-xs mb-30">
+                                        <div class="product_sort_info font-xs mb-30">
                                             <ul>
                                                 <li class="mb-10"><i class="mr-5 fi-rs-crown"></i> 1 Year AL Jazeera Brand Warranty</li>
                                                 <li class="mb-10"><i class="mr-5 fi-rs-refresh"></i> 30 Day Return Policy</li>
                                                 <li><i class="mr-5 fi-rs-credit-card"></i> Cash on Delivery available</li>
                                             </ul>
-                                        </div> --}}
-                                        <div class="attr-detail attr-color mb-15">
+                                        </div>
+
+                                        {{-- <div class="attr-detail attr-color mb-15">
                                             <strong class="mr-10">Color</strong>
                                             <ul class="list-filter color-filter">
                                                 <li><a href="#" data-color="Red"><span class="product-color-red"></span></a></li>
@@ -144,8 +145,30 @@
                                                 <li><a href="#">XXL</a></li>
                                             </ul>
                                         </div>
+
+                                        <div class="bt-1 border-color-1 mt-30 mb-30"></div> --}}
+                                        <div>
+                                            @foreach($product->attributeValues->unique('product_attribute_id') as $av)
+                                                <div class="row" style="margin-top: 20px">
+                                                    <div class="col-xs-2">
+                                                        <p>{{ $av->productAttribute->name }}</p>
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <select class="form-control" style="width: 200px" wire:model="satt.{{ $av->productAttribute->name }}">
+                                                            @foreach($av->productAttribute->attributeValues->where('product_id', $product->id) as $pav)
+                                                                <option value="{{ $pav->value }}">{{ $pav->value }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>
-                                        <div class="detail-extralink">
+
+
+                                        {{-- <div class="detail-extralink">
                                             <div class="border detail-qty radius">
                                                 <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
                                                 <span class="qty-val">1</span>
@@ -156,7 +179,43 @@
                                                 <a aria-label="Add To Wishlist" class="action-btn hover-up" href="wishlist.php"><i class="fi-rs-heart"></i></a>
                                                 <a aria-label="Compare" class="action-btn hover-up" href="compare.php"><i class="fi-rs-shuffle"></i></a>
                                             </div>
+                                        </div> --}}
+
+                                        <div>
+                                            <!-- Attribute Selection -->
+                                            @foreach($product->attributeValues->unique('product_attribute_id') as $av)
+                                                <div class="row" style="margin-top: 20px">
+                                                    <div class="col-xs-2">
+                                                        <p>{{ $av->productAttribute->name }}</p>
+                                                    </div>
+                                                    <div class="col-xs-10">
+                                                        <select class="form-control" style="width: 200px" wire:model="satt.{{ $av->productAttribute->name }}">
+                                                            <option value="">Select {{ $av->productAttribute->name }}</option>
+                                                            @foreach($av->productAttribute->attributeValues->where('product_id', $product->id) as $pav)
+                                                                <option value="{{ $pav->value }}">{{ $pav->value }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                            <!-- Add to Cart Button -->
+                                            <div class="detail-extralink">
+                                                <div class="border detail-qty radius">
+                                                    <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                                    <span class="qty-val">1</span>
+                                                    <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                                </div>
+                                                <div class="product-extra-link2">
+                                                    <button type="button" class="button button-add-to-cart" wire:click.prevent="store({{$product->id}},'{{$product->name}}',{{$product->regular_price}})">
+                                                        <i class="fi-rs-shopping-bag-add"></i>Add to cart
+                                                    </button>
+                                                    <a aria-label="Add To Wishlist" class="action-btn hover-up" href="wishlist.php"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn hover-up" href="compare.php"><i class="fi-rs-shuffle"></i></a>
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <ul class="product-meta font-xs color-grey mt-50">
                                             <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
                                             <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use Carbon\Carbon;
-use Livewire\Component;
 use Illuminate\Support\Str;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 
@@ -31,6 +33,12 @@ class AdminAddProductComponent extends Component
     public $image;
     public $category_id;
     public $images;
+
+
+public $attr;
+public $inputs = [];
+public $attribute_arr = [];
+public $attribute_values;
 
     public function generateSlug()
     {
@@ -84,14 +92,47 @@ class AdminAddProductComponent extends Component
         }
         $product->category_id = $this->category_id;
         $product->save();
+
+        foreach($this->attribute_values as $key => $attribute_value)
+        {
+            $avalues = explode(":",$attribute_value);
+            foreach($avalues as $avalue)
+            {
+
+                $attr_value = new AttributeValue();
+                $attr_value->product_attribute_id =$key;
+                $attr_value->value = $avalue;
+                $attr_value->product_id = $product->id;
+
+                $attr_value->save();
+            }
+
+        }
+
         session()->flash('message','Product has been added');
 
     }
 
+    public function add()
+{
+    if(!in_array($this->attr,$this->attribute_arr))
+    {
+        array_push($this->inputs,$this->attr);
+        array_push($this->attribute_arr,$this->attr);
+    }
+}
+
+public function remove($attr)
+{
+    unset($this->inputs[$attr]);
+}
+
 
     public function render()
     {
+        $pattributes = ProductAttribute::all();
+
         $categories = Category::orderBY('name','ASC')->get();
-        return view('livewire.admin.admin-add-product-component',['categories'=>$categories]);
+        return view('livewire.admin.admin-add-product-component',['categories'=>$categories,'pattributes'=>$pattributes]);
     }
 }

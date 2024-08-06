@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="table-responsive">
-                            <table class="table shopping-summery text-center clean">
+                            <table class="table text-center shopping-summery clean">
                                 @if(Session::has('success_message'))
                                     <div class="alert alert-success">
                                         <strong>
@@ -23,10 +23,11 @@
                                     </div>
                                     @endif
                                    @if(Cart::count() > 0)
-                                <thead>
+                                   <thead>
                                     <tr class="main-heading">
                                         <th scope="col">Image</th>
                                         <th scope="col">Name</th>
+                                        <th scope="col">Attributes</th> <!-- New Attributes Column -->
                                         <th scope="col">Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Subtotal</th>
@@ -34,91 +35,85 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                          @foreach(Cart::content() as $item)
-    <tr>
-        <td class="image product-thumbnail">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <img src="{{asset('assets/imgs/products')}}/{{$item->model->image}}" alt="#">
-            @endif
-        </td>
-        <td class="product-des product-name">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <h5 class="product-name"><a href="product-details.html">{{$item->model->name}}</a></h5>
-                <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy magndapibus.</p>
-            @endif
-        </td>
-        <td class="price" data-title="Price">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <span>${{$item->model->regular_price}}</span>
-            @endif
-        </td>
-        <td class="text-center" data-title="Stock">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <div class="detail-qty border radius  m-auto">
-                    <a href="#" class="qty-down" wire:click.prevent="decreaseQuantity('{{$item->rowId}}')"><i class="fi-rs-angle-small-down"></i></a>
-                    <span class="qty-val">{{$item->qty}}</span>
-                    <a href="#" class="qty-up" wire:click.prevent="increaseQuantity('{{ $item->rowId }}')"><i class="fi-rs-angle-small-up"></i></a>
-                </div>
-            @endif
-        </td>
-        <td class="text-right" data-title="Cart">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <span>$ {{$item->subtotal}}</span>
-            @endif
-        </td>
-        <td class="action" data-title="Remove">
-            @if($item->model) <!-- Add a null check for $item->model -->
-                <a href="#" class="text-muted" wire:click.prevent="destroy('{{$item->rowId}}')" wire:click="$emit('refreshComponent')"><i class="fi-rs-trash"></i></a>
-            @endif
-        </td>
-    </tr>
-@endforeach
- 
- {{-- old code that fixed by chatgpt --}}
-          {{-- @foreach(Cart::content() as $item)
+                                    @foreach(Cart::content() as $item)
                                     <tr>
-                                        <td class="image product-thumbnail"><img src="{{asset('assets/imgs/products')}}{{$item->model->id}}-1" alt="#"></td>
-                                        <td class="product-des product-name">
-                                            <h5 class="product-name"><a href="product-details.html">{{$item->model->name}}</a></h5>
-                                            <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy magndapibus.
-                                            </p>
+                                        <td class="image product-thumbnail">
+                                            @if($item->model)
+                                                <img src="{{ asset('assets/imgs/products/'.$item->model->image) }}" alt="#">
+                                            @endif
                                         </td>
-                                        <td class="price" data-title="Price"><span>${{$item->model->regular_price}} </span></td>
+                                        <td class="product-des product-name">
+                                            @if($item->model)
+                                                <h5 class="product-name"><a href="product-details.html">{{ $item->model->name }}</a></h5>
+                                                <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy magndapibus.</p>
+                                            @endif
+                                        </td>
+
+                                        <td class="product-des product-name">
+                                            @if($item->options->isNotEmpty())
+                                                @foreach($item->options as $key => $value)
+                                                    <div style="vertical-align: middle; width: 180px;">
+                                                        <p><b>{{ $key }}:</b> {{ $value }}</p>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div style="vertical-align: middle; width: 180px;">
+                                                    <p><b>No Attributes</b></p>
+                                                </div>
+                                            @endif
+                                        </td>
+
+                                        <td class="price" data-title="Price">
+                                            @if($item->model)
+                                                <span>${{ $item->model->regular_price }}</span>
+                                            @endif
+                                        </td>
                                         <td class="text-center" data-title="Stock">
-                                            <div class="detail-qty border radius  m-auto">
-                                                <a href="#" class="qty-down" wire:click.prevent="decreaseQuantity('{{$item->rowId}}')"><i class="fi-rs-angle-small-down"></i></a>
-                                                <span class="qty-val">{{$item->qty}}</span>
-                                                <a href="#" class="qty-up" wire:click.prevent="increaseQuantity('{{ $item->rowId }}')"><i class="fi-rs-angle-small-up"></i></a>
-                                            </div>
+                                            @if($item->model)
+                                                <div class="m-auto border detail-qty radius">
+                                                    <a href="#" class="qty-down" wire:click.prevent="decreaseQuantity('{{ $item->rowId }}')"><i class="fi-rs-angle-small-down"></i></a>
+                                                    <span class="qty-val">{{ $item->qty }}</span>
+                                                    <a href="#" class="qty-up" wire:click.prevent="increaseQuantity('{{ $item->rowId }}')"><i class="fi-rs-angle-small-up"></i></a>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td class="text-right" data-title="Cart">
-                                            <span>$ {{$item->subtotal}} </span>
+                                            @if($item->model)
+                                                <span>$ {{ $item->subtotal }}</span>
+                                            @endif
                                         </td>
-                                        <td class="action" data-title="Remove"><a href="#" class="text-muted" wire:click.prevent="destroy('{{$item->rowId}}')" wire:click="$emit('refreshComponent')"><i class="fi-rs-trash"></i></a></td>
+                                        <td class="action" data-title="Remove">
+                                            @if($item->model)
+                                                <a href="#" class="text-muted" wire:click.prevent="destroy('{{ $item->rowId }}')" wire:click="$emit('refreshComponent')"><i class="fi-rs-trash"></i></a>
+                                            @endif
+                                        </td>
                                     </tr>
-                                  @endforeach --}}
-
-
+                                    @endforeach
                                     <tr>
                                         <td colspan="6" class="text-end">
                                             <a href="#" class="text-muted" wire:click.prevent="clearAll()"> <i class="fi-rs-cross-small" ></i> Clear Cart</a>
                                         </td>
                                     </tr>
                                 </tbody>
+
+
+
+
+
+
                             </table>
                             @else
                                  <p> No item in the cart </p>
                              @endif
                         </div>
                         <div class="cart-action text-end">
-                            <a class="btn  mr-10 mb-sm-15"><i class="fi-rs-shuffle mr-10"></i>Update Cart</a>
-                            <a class="btn "><i class="fi-rs-shopping-bag mr-10"></i>Continue Shopping</a>
+                            <a class="mr-10 btn mb-sm-15"><i class="mr-10 fi-rs-shuffle"></i>Update Cart</a>
+                            <a class="btn "><i class="mr-10 fi-rs-shopping-bag"></i>Continue Shopping</a>
                         </div>
                         <div class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
                         <div class="row mb-50">
                             <div class="col-lg-6 col-md-12">
-                                <div class="heading_s1 mb-3">
+                                <div class="mb-3 heading_s1">
                                     <h4>Calculate Shipping</h4>
                                 </div>
                                 <p class="mt-15 mb-30">Flat rate: <span class="font-xl text-brand fw-900">5%</span></p>
@@ -386,12 +381,12 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-lg-12">
-                                            <button class="btn  btn-sm"><i class="fi-rs-shuffle mr-10"></i>Update</button>
+                                            <button class="btn btn-sm"><i class="mr-10 fi-rs-shuffle"></i>Update</button>
                                         </div>
                                     </div>
                                 </form>
                                 <div class="mb-30 mt-50">
-                                    <div class="heading_s1 mb-3">
+                                    <div class="mb-3 heading_s1">
                                         <h4>Apply Coupon</h4>
                                     </div>
                                     <div class="total-amount">
@@ -403,7 +398,7 @@
                                                             <input class="font-medium" name="Coupon" placeholder="Enter Your Coupon">
                                                         </div>
                                                         <div class="form-group col-lg-6">
-                                                            <button class="btn  btn-sm"><i class="fi-rs-label mr-10"></i>Apply</button>
+                                                            <button class="btn btn-sm"><i class="mr-10 fi-rs-label"></i>Apply</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -414,7 +409,7 @@
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="border p-md-4 p-30 border-radius cart-totals">
-                                    <div class="heading_s1 mb-3">
+                                    <div class="mb-3 heading_s1">
                                         <h4>Cart Totals</h4>
                                     </div>
                                     <div class="table-responsive">
@@ -431,7 +426,7 @@
 
                                                 <tr>
                                                     <td class="cart_total_label">shipping</td>
-                                                    <td class="cart_total_amount"> <i class="ti-gift mr-5"></i> Free shipping</td>
+                                                    <td class="cart_total_amount"> <i class="mr-5 ti-gift"></i> Free shipping</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="cart_total_label">Total</td>
@@ -440,7 +435,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#" class="btn  class="fi-rs-box-alt mr-10" wire:click.prevent="checkout"> Proceed To CheckOut</a>
+                                    <a href="#" class="btn  class="mr-10 fi-rs-box-alt" wire:click.prevent="checkout"> Proceed To CheckOut</a>
                                 </div>
                             </div>
                         </div>

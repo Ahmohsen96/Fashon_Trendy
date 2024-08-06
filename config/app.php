@@ -183,6 +183,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
 
 
 
@@ -216,6 +218,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Cart' => Gloudemans\Shoppingcart\Facades\Cart::class,
         'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
 
 
         // 'ExampleClass' => App\Example\ExampleClass::class,

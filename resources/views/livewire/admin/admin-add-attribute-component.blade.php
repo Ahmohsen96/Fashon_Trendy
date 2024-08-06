@@ -1,0 +1,61 @@
+
+
+<div>
+    <style>
+        nav svg{
+            height: 20px;
+        }
+        nav .hidden{
+            display: block;
+        }
+    </style>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Add New Attribute
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                           <div class="column-md-6">
+                            Add New Attribute
+                           </div>
+                           <div class="column-md-6">
+                            <a href="{{route('admin.attributes')}}" class="btn btn-success pull-right">All Attribute</a>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                      @if(Session::has('message'))
+                      <div class="alert alert-success" role="alert">{{ Session::get('message')}}</div>
+                      @endif
+                    <form wire:submit.prevent="storeAttribute">
+                      <div class="mb-3 mt-3">
+                        <lable for="name" class="form-label">name</lable>
+                        <input type="text" name="name" class="form-control" placeholder="Enter Attribute name" wire:model="name"  />
+                        @error('name')
+                        <p class="text-danger">{{ $message   }}</p>
+
+                        @enderror
+                      </div>
+
+
+                       <button type="submit" class="btn btn-primary float-end">submit</button>
+                    </form>
+
+                </div>
+            </div>
+            </div>
+            </div>
+            </div>
+          </section>
+    </main>
+</div>

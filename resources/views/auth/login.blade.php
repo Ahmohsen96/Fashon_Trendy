@@ -39,6 +39,8 @@
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Log in</button>
+                                                <a href="{{ url('auth/google') }}" >Google Login</a>
+
                                             </div>
                                         </form>
                                     </div>

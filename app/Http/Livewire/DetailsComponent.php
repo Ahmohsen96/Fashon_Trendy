@@ -10,17 +10,24 @@ use Cart;
 class DetailsComponent extends Component
 {
     public $slug;
+    public $satt =[];
+
 
     public function mount($slug)
     {
-        
+
         $this->slug= $slug;
+
     }
 
     public function store($product_id,$product_name,$product_price)
     {
 
-        Cart::add($product_id,$product_name,1,$product_price)->associate('App\Models\Product');
+        // dd($this->satt);
+        logger()->debug('Selected Attributes:', $this->satt);
+
+
+        Cart::add($product_id,$product_name,1,$product_price,$this->satt)->associate('App\Models\Product');
         session()->flash('success_message','Item added in cart');
         return redirect()->route('shop.cart');
     }

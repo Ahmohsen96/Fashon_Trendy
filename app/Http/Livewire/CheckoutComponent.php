@@ -7,10 +7,10 @@ use App\Models\OrderItem;
 use App\Models\Shipping;
 use App\Models\Transactions;
 use Cart;
-use Validator;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Validator;
 // use Illuminate\Support\Facades\Validator;
 
 class CheckoutComponent extends Component
@@ -105,7 +105,7 @@ class CheckoutComponent extends Component
 
         // $order->subtotal=session()->get('checkout')['subtotal'];
         $subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
-$order->subtotal = $subtotal;
+        $order->subtotal = $subtotal;
 
         $order->discount=session()->get('checkout')['discount'];
         $order->tax=session()->get('checkout')['tax'];
@@ -115,11 +115,11 @@ $order->subtotal = $subtotal;
         // $order->total=Cart::total();
 
         // Remove commas from the tax and total values
-$tax = str_replace(',', '', session()->get('checkout')['tax']);
-$total = str_replace(',', '', session()->get('checkout')['total']);
+        $tax = str_replace(',', '', session()->get('checkout')['tax']);
+        $total = str_replace(',', '', session()->get('checkout')['total']);
 
-$order->tax = $tax;
-$order->total = $total;
+        $order->tax = $tax;
+        $order->total = $total;
 
 
         $order->firstname=$this->firstname;
@@ -192,7 +192,10 @@ $order->total = $total;
             $this->thankyou= 1 ;
             Cart::instance('cart')->destroy();
             session()->forget('checkout');
+
     }
+
+
 
     public function verifyForCheckout(){
         if(!Auth::check()){
@@ -204,6 +207,7 @@ $order->total = $total;
         }else if(!session()->get('checkout')){
             return redirect()->route('shop.cart');
         }
+
 
     }
 
