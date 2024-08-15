@@ -147,7 +147,7 @@
                                         </div>
 
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div> --}}
-                                        <div>
+                                        {{-- <div>
                                             @foreach($product->attributeValues->unique('product_attribute_id') as $av)
                                                 <div class="row" style="margin-top: 20px">
                                                     <div class="col-xs-2">
@@ -162,7 +162,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        </div>
+                                        </div> --}}
 
 
                                         <div class="bt-1 border-color-1 mt-30 mb-30"></div>

@@ -65,6 +65,7 @@
                  <tr class="main-heading">
                      <th scope="col">Image</th>
                      <th scope="col">Name</th>
+                     {{-- <th scope="col">Attribute</th> --}}
                      <th scope="col">Price</th>
                      <th scope="col">Quantity</th>
                      <th scope="col">Subtotal</th>
@@ -77,9 +78,33 @@
                      <td class="image product-thumbnail"><img src="{{asset('assets/imgs/products')}}/{{$item->product->image}}" alt="#"></td>
                      <td class="product-des product-name">
                          <h5 class="product-name"><a href="product-details.html">{{$item->product->name}}</a></h5>
+                         @if($item->options)
+    <div class="product-name">
+        @foreach(unserialize($item->options) as $key => $value)
+            <p><b>{{$key}}:{{$value}}</b></p>
+        @endforeach
+    </div>
+@endif 
                          {{--  <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy magndapibus.  --}}
                          </p>
                      </td>
+
+                     {{-- <td class="product-des product-name">
+                        @php
+                            $options = is_string($item->options) ? json_decode($item->options, true) : $item->options;
+                        @endphp
+                        @if(!empty($options))
+                        @foreach($item->options as $key => $value)
+                        <div style="vertical-align: middle; width: 180px;">
+                            <p><b>{{ $key }}:</b> {{ $value }}</p>
+                        </div>
+                    @endforeach
+                        @else
+                            <div style="vertical-align: middle; width: 180px;">
+                                <p><b>No Attributes</b></p>
+                            </div>
+                        @endif
+                    </td> --}}
                      <td class="price" data-title="Price"><span>${{$item->price}} </span></td>
                      <td>{{$item->quantity}}</td>
 

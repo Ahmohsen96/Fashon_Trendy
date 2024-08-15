@@ -1,5 +1,7 @@
 
 <!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}" dir="{{ in_array(app()->getLocale(), config('laravellocalization.rtl_locales')) ? 'rtl' : 'ltr' }}">
+
 <html class="no-js" lang="en">
 
 <head>
@@ -7,6 +9,8 @@
 <title>Fashon</title>
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="description" content="">
+<link rel="stylesheet" href="{{ asset(session('direction') === 'rtl' ? 'css/rtl.css' : 'css/app.css') }}">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,22 +33,28 @@
                 <div class="row align-items-center">
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info">
-                        <ul>
+                            <ul>
                                 <li>
-                                    <a class="language-dropdown-active" href="#"> <i class="fi-rs-world"></i> English <i class="fi-rs-angle-small-down"></i></a>
+                                    <a class="language-dropdown-active" href="#">
+                                        <i class="fi-rs-world"></i> English <i class="fi-rs-angle-small-down"></i>
+                                    </a>
                                     <ul class="language-dropdown">
                                         @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                                        <li>
-                                            <a rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                                {{ $properties['native'] }}
-                                            </a>
-                                        </li>
-                                    @endforeach
+                                            <li>
+                                                <a rel="alternate" hreflang="{{ $localeCode }}"
+                                                   href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+                                                   dir="{{ in_array($localeCode, config('laravellocalization.rtl_locales')) ? 'rtl' : 'ltr' }}">
+                                                    {{ $properties['native'] }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                        {{-- Optionally, you can keep or remove the commented out languages --}}
                                         {{-- <li><a href="#"><img src="assets/imgs/theme/flag-fr.png" alt="">Français</a></li> --}}
                                         {{-- <li><a href="#"><img src="assets/imgs/theme/flag-dt.png" alt="">العربية</a></li> --}}
                                     </ul>
                                 </li>
                             </ul>
+
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-4">

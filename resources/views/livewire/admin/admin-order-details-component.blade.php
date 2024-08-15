@@ -73,7 +73,16 @@
                     <td class="product-des product-name">
                         <h5 class="product-name"><a href="product-details.html">{{$item->product->name}}</a></h5>
                         {{--  <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy magndapibus.  --}}
-                        </p>
+
+                        {{-- </p> --}}
+
+                        @if($item->options)
+                            <div class="product-name">
+                                @foreach(unserialize($item->options) as $key => $value)
+                                    <p><b>{{$key}}:{{$value}}</b></p>
+                                @endforeach
+                            </div>
+                        @endif
                     </td>
                     <td class="price" data-title="Price"><span>${{$item->price}} </span></td>
                     <td>{{$item->quantity}}</td>
