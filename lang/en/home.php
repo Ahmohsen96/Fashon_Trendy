@@ -22,5 +22,7 @@ return [
     'Featured' => 'Featured',
     'Popular' => 'Popular',
     'New Arrival' => 'New Arrival',
+    'Toll Free' => 'Contact Number',
+    'Browse Categories' => 'Browse Categories',
 
 ];

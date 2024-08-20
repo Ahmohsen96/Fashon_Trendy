@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Shipping;
 use App\Models\Transactions;
+use App\Models\Product;
 use Cart;
 
 use Illuminate\Support\Facades\Auth;
@@ -83,121 +84,219 @@ class CheckoutComponent extends Component
         }
     }
 
-    public function placeOrder(){
+    // public function placeOrder(){
+    //     $this->validate([
+
+    //         'firstname' =>'required',
+    //         'lastname'  =>'required',
+    //         'email'=>'required|email',
+    //         'mobile'=>'required|numeric',
+    //         'line1'=>'required',
+    //         'city'=>'required',
+    //         'province'=>'required',
+    //         'country'=>'required',
+    //         'zipcode'=>'required',
+    //         'paymentmode'=>'required',
+
+    //     ]);
+
+
+    //     $order=new Order();
+    //     $order->user_id=Auth::user()->id;
+
+    //     // $order->subtotal=session()->get('checkout')['subtotal'];
+    //     $subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
+    //     $order->subtotal = $subtotal;
+
+    //     $order->discount=session()->get('checkout')['discount'];
+    //     $order->tax=session()->get('checkout')['tax'];
+    //     $order->total=session()->get('checkout')['total'];
+    //     // $order->discount=Cart::discount();
+    //     // $order->tax=Cart::tax();
+    //     // $order->total=Cart::total();
+
+    //     // Remove commas from the tax and total values
+    //     $tax = str_replace(',', '', session()->get('checkout')['tax']);
+    //     $total = str_replace(',', '', session()->get('checkout')['total']);
+
+    //     $order->tax = $tax;
+    //     $order->total = $total;
+
+
+    //     $order->firstname=$this->firstname;
+    //     $order->lastname=$this-> lastname;
+    //     $order->email=$this->email;
+    //     $order->mobile=$this->mobile;
+    //     $order->line1=$this->line1;
+    //     $order->line2=$this->line2;
+    //     $order->city=$this->city;
+    //     $order->province=$this->province;
+    //     $order->country=$this->country;
+    //     $order->zipcode=$this->zipcode;
+    //     $order->status='ordered';
+    //     $order->is_shipping_different=$this->ship_to_different ? 1:0;
+    //     $order->save();
+
+
+    //     foreach(Cart::content() as $item ){
+    //         $orderItem=new OrderItem();
+    //         $orderItem->product_id=$item->id;
+    //         $orderItem->order_id=$order->id;
+    //         $orderItem->price=$item->price;
+    //         $orderItem->quantity=$item->qty;
+
+    //         if($item->options)
+    //             {
+    //                 $orderItem->options = serialize($item->options);
+    //             }
+    //      $orderItem->save();
+
+
+    //     }
+
+    //     if($this->ship_to_different){
+
+    //         $this->validate([
+
+    //             's_firstname' =>'required',
+    //             's_lastname'  =>'required',
+    //             's_email'=>'required|email',
+    //             's_mobile'=>'required|numeric',
+    //             's_line1'=>'required',
+    //             's_city'=>'required',
+    //             's_province'=>'required',
+    //             's_country'=>'required',
+    //             's_zipcode'=>'required',
+
+    //         ]);
+
+    //         $shipping= new Shipping();
+    //         $shipping->order_id=$order->id;
+    //         $shipping->firstname=$this->s_firstname;
+    //         $shipping->lastname=$this->s_lastname;
+    //         $shipping->email=$this->s_email;
+    //         $shipping->mobile=$this->s_mobile;
+    //         $shipping->line1=$this->s_line1;
+    //         $shipping->line2=$this->s_line2;
+    //         $shipping->city=$this->s_city;
+    //         $shipping->province=$this->s_province;
+    //         $shipping->country=$this->s_country;
+    //         $shipping->zipcode=$this->s_zipcode;
+    //         $shipping->save();
+    //     }
+
+    //         if($this->paymentmode=='cod'){
+
+    //             $transaction=new Transactions();
+    //             $transaction->user_id=Auth::user()->id;
+    //             $transaction->order_id=$order->id;
+    //             $transaction->mode='cod';
+    //             $transaction->status='pending';
+    //             $transaction->save();
+    //         }
+
+    //         $this->thankyou= 1 ;
+    //         Cart::instance('cart')->destroy();
+    //         session()->forget('checkout');
+
+    // }
+
+    public function placeOrder()
+    {
         $this->validate([
-
-            'firstname' =>'required',
-            'lastname'  =>'required',
-            'email'=>'required|email',
-            'mobile'=>'required|numeric',
-            'line1'=>'required',
-            'city'=>'required',
-            'province'=>'required',
-            'country'=>'required',
-            'zipcode'=>'required',
-            'paymentmode'=>'required',
-
+            'firstname' => 'required',
+            'lastname' => 'required',
+            'email' => 'required|email',
+            'mobile' => 'required|numeric',
+            'line1' => 'required',
+            'city' => 'required',
+            'province' => 'required',
+            'country' => 'required',
+            'zipcode' => 'required',
+            'paymentmode' => 'required',
         ]);
 
-
-        $order=new Order();
-        $order->user_id=Auth::user()->id;
-
-        // $order->subtotal=session()->get('checkout')['subtotal'];
+        $order = new Order();
+        $order->user_id = Auth::user()->id;
         $subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
         $order->subtotal = $subtotal;
-
-        $order->discount=session()->get('checkout')['discount'];
-        $order->tax=session()->get('checkout')['tax'];
-        $order->total=session()->get('checkout')['total'];
-        // $order->discount=Cart::discount();
-        // $order->tax=Cart::tax();
-        // $order->total=Cart::total();
-
-        // Remove commas from the tax and total values
-        $tax = str_replace(',', '', session()->get('checkout')['tax']);
-        $total = str_replace(',', '', session()->get('checkout')['total']);
-
-        $order->tax = $tax;
-        $order->total = $total;
-
-
-        $order->firstname=$this->firstname;
-        $order->lastname=$this-> lastname;
-        $order->email=$this->email;
-        $order->mobile=$this->mobile;
-        $order->line1=$this->line1;
-        $order->line2=$this->line2;
-        $order->city=$this->city;
-        $order->province=$this->province;
-        $order->country=$this->country;
-        $order->zipcode=$this->zipcode;
-        $order->status='ordered';
-        $order->is_shipping_different=$this->ship_to_different ? 1:0;
+        $order->discount = session()->get('checkout')['discount'];
+        $order->tax = str_replace(',', '', session()->get('checkout')['tax']);
+        $order->total = str_replace(',', '', session()->get('checkout')['total']);
+        $order->firstname = $this->firstname;
+        $order->lastname = $this->lastname;
+        $order->email = $this->email;
+        $order->mobile = $this->mobile;
+        $order->line1 = $this->line1;
+        $order->line2 = $this->line2;
+        $order->city = $this->city;
+        $order->province = $this->province;
+        $order->country = $this->country;
+        $order->zipcode = $this->zipcode;
+        $order->status = 'ordered';
+        $order->is_shipping_different = $this->ship_to_different ? 1 : 0;
         $order->save();
 
+        foreach (Cart::content() as $item) {
+            $orderItem = new OrderItem();
+            $orderItem->product_id = $item->id;
+            $orderItem->order_id = $order->id;
+            $orderItem->price = $item->price;
+            $orderItem->quantity = $item->qty;
 
-        foreach(Cart::content() as $item ){
-            $orderItem=new OrderItem();
-            $orderItem->product_id=$item->id;
-            $orderItem->order_id=$order->id;
-            $orderItem->price=$item->price;
-            $orderItem->quantity=$item->qty;
+            if ($item->options) {
+                $orderItem->options = serialize($item->options);
+            }
+            $orderItem->save();
 
-            if($item->options)
-                {
-                    $orderItem->options = serialize($item->options);
-                }
-         $orderItem->save();
-
-
+            // Reduce product quantity and update stock status
+            $product = Product::find($item->id);
+            if ($product) {
+                $product->quantity -= $item->qty;
+                $product->updateStockStatus();
+            }
         }
 
-        if($this->ship_to_different){
-
+        if ($this->ship_to_different) {
             $this->validate([
-
-                's_firstname' =>'required',
-                's_lastname'  =>'required',
-                's_email'=>'required|email',
-                's_mobile'=>'required|numeric',
-                's_line1'=>'required',
-                's_city'=>'required',
-                's_province'=>'required',
-                's_country'=>'required',
-                's_zipcode'=>'required',
-
+                's_firstname' => 'required',
+                's_lastname' => 'required',
+                's_email' => 'required|email',
+                's_mobile' => 'required|numeric',
+                's_line1' => 'required',
+                's_city' => 'required',
+                's_province' => 'required',
+                's_country' => 'required',
+                's_zipcode' => 'required',
             ]);
 
-            $shipping= new Shipping();
-            $shipping->order_id=$order->id;
-            $shipping->firstname=$this->s_firstname;
-            $shipping->lastname=$this->s_lastname;
-            $shipping->email=$this->s_email;
-            $shipping->mobile=$this->s_mobile;
-            $shipping->line1=$this->s_line1;
-            $shipping->line2=$this->s_line2;
-            $shipping->city=$this->s_city;
-            $shipping->province=$this->s_province;
-            $shipping->country=$this->s_country;
-            $shipping->zipcode=$this->s_zipcode;
+            $shipping = new Shipping();
+            $shipping->order_id = $order->id;
+            $shipping->firstname = $this->s_firstname;
+            $shipping->lastname = $this->s_lastname;
+            $shipping->email = $this->s_email;
+            $shipping->mobile = $this->s_mobile;
+            $shipping->line1 = $this->s_line1;
+            $shipping->line2 = $this->s_line2;
+            $shipping->city = $this->s_city;
+            $shipping->province = $this->s_province;
+            $shipping->country = $this->s_country;
+            $shipping->zipcode = $this->s_zipcode;
             $shipping->save();
         }
 
-            if($this->paymentmode=='cod'){
+        if ($this->paymentmode == 'cod') {
+            $transaction = new Transactions();
+            $transaction->user_id = Auth::user()->id;
+            $transaction->order_id = $order->id;
+            $transaction->mode = 'cod';
+            $transaction->status = 'pending';
+            $transaction->save();
+        }
 
-                $transaction=new Transactions();
-                $transaction->user_id=Auth::user()->id;
-                $transaction->order_id=$order->id;
-                $transaction->mode='cod';
-                $transaction->status='pending';
-                $transaction->save();
-            }
-
-            $this->thankyou= 1 ;
-            Cart::instance('cart')->destroy();
-            session()->forget('checkout');
-
+        $this->thankyou = 1;
+        Cart::instance('cart')->destroy();
+        session()->forget('checkout');
     }
 
 

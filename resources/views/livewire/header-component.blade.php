@@ -34,7 +34,7 @@
 
                 <div class="main-categori-wrap d-none d-lg-block">
                     <a class="categori-button-active" href="#">
-                        <span class="fi-rs-apps"></span> Browse Categories
+                        <span class="fi-rs-apps"></span>{{ trans('home.Browse Categories') }}
                     </a>
 
                     <div class="categori-dropdown-wrap categori-dropdown-active-large">
@@ -143,7 +143,7 @@
                 </div>
             </div>
             <div class="hotline d-none d-lg-block">
-                <p><i class="fi-rs-smartphone"></i><span>Toll Free</span> (+20) 011-000-000 </p>
+                <p><i class="fi-rs-smartphone"></i><span> {{ trans('home.Toll Free') }} </span> (+20) 011-000-000 </p>
             </div>
             <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%</p>
             <div class="header-action-right d-block d-lg-none">

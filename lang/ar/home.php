@@ -22,5 +22,9 @@ return [
     'Featured' => 'المنتجات المميزة',
     'Popular' => 'المنتجات الشائعة',
     'New Arrival' => 'المنتجات الأحدث',
+    'Toll Free' => 'رقم التواصل',
+    'Browse Categories' => 'تصفح الأصناف',
+
+
 
 ];

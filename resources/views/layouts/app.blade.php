@@ -205,7 +205,7 @@
                         <a href="contact.html"> Our location </a>
                     </div>
                     <div class="single-mobile-header-info">
-                        <a href="login.html">Log In </a>
+                        <a href="{{route('login')}}">Log In </a>
                     </div>
                     <div class="single-mobile-header-info">
                         <a href="register.html">Sign Up</a>

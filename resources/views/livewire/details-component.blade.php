@@ -18,31 +18,6 @@
                                 <div class="col-md-6 col-sm-12 col-xs-12">
                                     <div class="detail-gallery">
                                         <span class="zoom-icon"><i class="fi-rs-search"></i></span>
-                                        <!-- MAIN SLIDES -->
-                                        {{-- <div class="product-image-slider">
-                                            <figure class="border-radius-10">
-                                                <img src="{{asset('assets/imgs/products')}}/{{$product->image}}" alt="product image">
-                                            </figure>
-
-                                            <figure class="border-radius-10">
-                                                <img src="{{asset('assets/imgs/products')}}/{{$product->id}}" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src= "{{ asset('assets/imgs/shop/product-')}}{{ $product->id }}.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="{{ asset('assets/imgs/shop/product-')}}{{ $product->id }}.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="{{ asset('assets/imgs/shop/product-')}}{{ $product->id }}.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="{{ asset('assets/imgs/shop/product-')}}{{ $product->id }}.jpg" alt="product image">
-                                            </figure>
-                                            <figure class="border-radius-10">
-                                                <img src="{{ asset('assets/imgs/shop/product-')}}{{ $product->id }}.jpg" alt="product image">
-                                            </figure>
-                                        </div> --}}
                                         <div class="product-detail accordion-detail">
                                             <div class="row mb-50">
                                                 <div class="col-md-6 col-sm-12 col-xs-12">
@@ -198,6 +173,7 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                            <br/>
 
                                             <!-- Add to Cart Button -->
                                             <div class="detail-extralink">
@@ -217,10 +193,11 @@
                                         </div>
 
                                         <ul class="product-meta font-xs color-grey mt-50">
-                                            <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
+                                            <li class="mb-5">SKU: <a href="#">{{ $product->SKU }}</a></li>
                                             <li class="mb-5">Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">Women</a>, <a href="#" rel="tag">Dress</a> </li>
-                                            <li>Availability:<span class="ml-5 in-stock text-success">8 Items In Stock</span></li>
+                                            <li>Availability:<span class="ml-5 {{ $product->quantity > 0 ? 'in-stock text-success' : 'out-of-stock text-danger' }}">{{ $product->getStockStatusText() }}</span></li>
                                         </ul>
+
                                     </div>
                                     <!-- Detail Info -->
                                 </div>

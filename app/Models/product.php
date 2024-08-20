@@ -25,5 +25,20 @@ public function attributeValues()
     return $this->hasMany(AttributeValue::class,'product_id');
 }
 
+public function getStockStatusText()
+{
+    if ($this->quantity > 0) {
+        return $this->quantity . ' Items In Stock';
+    } else {
+        return 'Out of Stock';
+    }
+}
+
+public function updateStockStatus()
+{
+    $this->stock_status = $this->quantity > 0 ? 'instock' : 'outofstock';
+    $this->save();
+}
+
 
 }

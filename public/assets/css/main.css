@@ -1573,6 +1573,7 @@ label {
   animation-name: fadeInUp;
 }
 
+
 .single-animation-wrap.slick-active .slider-animated-1 h4 {
   -webkit-animation-delay: 1.0s;
   animation-delay: 1.0s;
@@ -4169,7 +4170,7 @@ table .product-thumbnail img {
   color: #fff;
 }
 
-/*PRODUCT DETAILS*/
+PRODUCT DETAILS
 .detail-gallery {
   position: relative;
 }
@@ -9931,6 +9932,8 @@ span.fi-rs-apps {
 		padding-left:15%;
 	}
 }
+
+
 @media (max-width:404px)
 {
 	.mob-app{
