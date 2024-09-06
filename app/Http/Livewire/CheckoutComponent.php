@@ -201,6 +201,104 @@ class CheckoutComponent extends Component
 
     // }
 
+    // public function placeOrder()
+    // {
+    //     $this->validate([
+    //         'firstname' => 'required',
+    //         'lastname' => 'required',
+    //         'email' => 'required|email',
+    //         'mobile' => 'required|numeric',
+    //         'line1' => 'required',
+    //         'city' => 'required',
+    //         'province' => 'required',
+    //         'country' => 'required',
+    //         'zipcode' => 'required',
+    //         'paymentmode' => 'required',
+    //     ]);
+
+    //     $order = new Order();
+    //     $order->user_id = Auth::user()->id;
+    //     $subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
+    //     $order->subtotal = $subtotal;
+    //     $order->discount = session()->get('checkout')['discount'];
+    //     $order->tax = str_replace(',', '', session()->get('checkout')['tax']);
+    //     $order->total = str_replace(',', '', session()->get('checkout')['total']);
+    //     $order->firstname = $this->firstname;
+    //     $order->lastname = $this->lastname;
+    //     $order->email = $this->email;
+    //     $order->mobile = $this->mobile;
+    //     $order->line1 = $this->line1;
+    //     $order->line2 = $this->line2;
+    //     $order->city = $this->city;
+    //     $order->province = $this->province;
+    //     $order->country = $this->country;
+    //     $order->zipcode = $this->zipcode;
+    //     $order->status = 'ordered';
+    //     $order->is_shipping_different = $this->ship_to_different ? 1 : 0;
+    //     $order->save();
+
+    //     foreach (Cart::content() as $item) {
+    //         $orderItem = new OrderItem();
+    //         $orderItem->product_id = $item->id;
+    //         $orderItem->order_id = $order->id;
+    //         $orderItem->price = $item->price;
+    //         $orderItem->quantity = $item->qty;
+
+    //         if ($item->options) {
+    //             $orderItem->options = serialize($item->options);
+    //         }
+    //         $orderItem->save();
+
+    //         // Reduce product quantity and update stock status
+    //         $product = Product::find($item->id);
+    //         if ($product) {
+    //             $product->quantity -= $item->qty;
+    //             $product->updateStockStatus();
+    //         }
+    //     }
+
+    //     if ($this->ship_to_different) {
+    //         $this->validate([
+    //             's_firstname' => 'required',
+    //             's_lastname' => 'required',
+    //             's_email' => 'required|email',
+    //             's_mobile' => 'required|numeric',
+    //             's_line1' => 'required',
+    //             's_city' => 'required',
+    //             's_province' => 'required',
+    //             's_country' => 'required',
+    //             's_zipcode' => 'required',
+    //         ]);
+
+    //         $shipping = new Shipping();
+    //         $shipping->order_id = $order->id;
+    //         $shipping->firstname = $this->s_firstname;
+    //         $shipping->lastname = $this->s_lastname;
+    //         $shipping->email = $this->s_email;
+    //         $shipping->mobile = $this->s_mobile;
+    //         $shipping->line1 = $this->s_line1;
+    //         $shipping->line2 = $this->s_line2;
+    //         $shipping->city = $this->s_city;
+    //         $shipping->province = $this->s_province;
+    //         $shipping->country = $this->s_country;
+    //         $shipping->zipcode = $this->s_zipcode;
+    //         $shipping->save();
+    //     }
+
+    //     if ($this->paymentmode == 'cod') {
+    //         $transaction = new Transactions();
+    //         $transaction->user_id = Auth::user()->id;
+    //         $transaction->order_id = $order->id;
+    //         $transaction->mode = 'cod';
+    //         $transaction->status = 'pending';
+    //         $transaction->save();
+    //     }
+
+    //     $this->thankyou = 1;
+    //     Cart::instance('cart')->destroy();
+    //     session()->forget('checkout');
+    // }
+
     public function placeOrder()
     {
         $this->validate([
@@ -218,8 +316,7 @@ class CheckoutComponent extends Component
 
         $order = new Order();
         $order->user_id = Auth::user()->id;
-        $subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
-        $order->subtotal = $subtotal;
+        $order->subtotal = str_replace(',', '', session()->get('checkout')['subtotal']);
         $order->discount = session()->get('checkout')['discount'];
         $order->tax = str_replace(',', '', session()->get('checkout')['tax']);
         $order->total = str_replace(',', '', session()->get('checkout')['total']);
@@ -292,12 +389,17 @@ class CheckoutComponent extends Component
             $transaction->mode = 'cod';
             $transaction->status = 'pending';
             $transaction->save();
+        } elseif ($this->paymentmode == 'paymob') {
+            // Redirect to Paymob payment page (POST request to the route)
+            return redirect()->route('checkout.credit');
         }
 
         $this->thankyou = 1;
         Cart::instance('cart')->destroy();
         session()->forget('checkout');
     }
+
+
 
 
 

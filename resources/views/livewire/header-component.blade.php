@@ -120,6 +120,7 @@
                                @if(Auth::user()->utype=='ADM')
                                 <ul class="sub-menu">
                                     <li><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                                    <li><a href="{{ route('admin.notification') }}">Notification</a></li>
                                     <li><a href="{{route('admin.attributes')}}">Attributes</a></li>
                                     <li><a href="{{route('admin.products')}}">Products</a></li>
                                     <li><a href="{{route('admin.categories')}}">Categories</a></li>

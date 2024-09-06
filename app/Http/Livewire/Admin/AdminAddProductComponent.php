@@ -45,75 +45,76 @@ public $attribute_values;
         $this->slug=Str::slug($this->name);
     }
 
-    // public function addProduct()
-    // {
 
-    //     $this->validate([
-    //         'name' =>'required',
-    //         'slug' =>'required',
-    //         'short_description' =>'required',
-    //         'description' =>'required',
-    //         'regular_price' =>'required',
-    //         'sale_price' =>'required',
-    //         'sku' =>'required',
-    //         'stock_status' =>'required',
-    //         'featured' =>'required',
-    //         'image' =>'required',
-    //         'category_id' =>'required',
-    //     ]);
 
-    //     $product = new Product();
+//     public function addProduct()
+// {
+//     $this->validate([
+//         'name.en' => 'required',
+//         'name.ar' => 'required',
+//         'slug' => 'required',
+//         'short_description.en' => 'required',
+//         'short_description.ar' => 'required',
+//         'description.en' => 'required',
+//         'description.ar' => 'required',
+//         'regular_price' => 'required',
+//         'sale_price' => 'required',
+//         'sku' => 'required',
+//         'stock_status' => 'required',
+//         'featured' => 'required',
+//         'image' => 'required',
+//         'category_id' => 'required',
+//     ]);
 
-    //     $product->name = $this->name;
-    //     $product->slug = $this->slug;
-    //     $product->short_description= $this->short_description;
-    //     $product->description = $this->description;
-    //     $product->regular_price = $this->regular_price;
-    //     $product->sale_price = $this->sale_price;
-    //     $product->SKU = $this->sku;
-    //     $product->stock_status = $this->stock_status;
-    //     $product->featured = $this->featured;
-    //     $product->quantity = $this->quantity;
-    //     $imageName =Carbon::now()->timestamp.'.'.$this->image->extension();
-    //     $this->image->storeAs('products',$imageName);
-    //     $product->image = $imageName;
+//     $product = new Product();
 
-    //     if($this->images){
-    //         $imagesName ='';
-    //         foreach($this->images as $key=>$image)
-    //         {
-    //             $imgName=Carbon::now()->timestamp.$key.'.'.$image->extension();
-    //             $image->storeAs('products',$imgName);
-    //             $imagesName= $imagesName . ',' . $imgName;
+//     $product->slug = $this->slug;
+//     $product->regular_price = $this->regular_price;
+//     $product->sale_price = $this->sale_price;
+//     $product->SKU = $this->sku;
+//     $product->stock_status = $this->stock_status;
+//     $product->featured = $this->featured;
+//     $product->quantity = $this->quantity;
 
-    //         }
-    //         $product->images=$imagesName;
+//     $imageName = Carbon::now()->timestamp . '.' . $this->image->extension();
+//     $this->image->storeAs('products', $imageName);
+//     $product->image = $imageName;
 
-    //     }
-    //     $product->category_id = $this->category_id;
-    //     $product->save();
+//     if ($this->images) {
+//         $imagesName = '';
+//         foreach ($this->images as $key => $image) {
+//             $imgName = Carbon::now()->timestamp . $key . '.' . $image->extension();
+//             $image->storeAs('products', $imgName);
+//             $imagesName = $imagesName . ',' . $imgName;
+//         }
+//         $product->images = $imagesName;
+//     }
 
-    //     foreach($this->attribute_values as $key => $attribute_value)
-    //     {
-    //         $avalues = explode(":",$attribute_value);
-    //         foreach($avalues as $avalue)
-    //         {
+//     $product->category_id = $this->category_id;
 
-    //             $attr_value = new AttributeValue();
-    //             $attr_value->product_attribute_id =$key;
-    //             $attr_value->value = $avalue;
-    //             $attr_value->product_id = $product->id;
+//     // Save translations
+//     $product->setTranslations('name', $this->name);
+//     $product->setTranslations('short_description', $this->short_description);
+//     $product->setTranslations('description', $this->description);
 
-    //             $attr_value->save();
-    //         }
+//     $product->save();
 
-    //     }
+//     // Save attributes
+//     foreach ($this->attribute_values as $key => $attribute_value) {
+//         $avalues = explode(":", $attribute_value);
+//         foreach ($avalues as $avalue) {
+//             $attr_value = new AttributeValue();
+//             $attr_value->product_attribute_id = $key;
+//             $attr_value->value = $avalue;
+//             $attr_value->product_id = $product->id;
+//             $attr_value->save();
+//         }
+//     }
 
-    //     session()->flash('message','Product has been added');
+//     session()->flash('message', 'Product has been added');
+// }
 
-    // }
-
-    public function addProduct()
+public function addProduct()
 {
     $this->validate([
         'name.en' => 'required',
@@ -134,6 +135,7 @@ public $attribute_values;
 
     $product = new Product();
 
+    // Other product fields...
     $product->slug = $this->slug;
     $product->regular_price = $this->regular_price;
     $product->sale_price = $this->sale_price;
@@ -141,7 +143,9 @@ public $attribute_values;
     $product->stock_status = $this->stock_status;
     $product->featured = $this->featured;
     $product->quantity = $this->quantity;
+    $product->category_id = $this->category_id;
 
+    // Save image
     $imageName = Carbon::now()->timestamp . '.' . $this->image->extension();
     $this->image->storeAs('products', $imageName);
     $product->image = $imageName;
@@ -156,25 +160,24 @@ public $attribute_values;
         $product->images = $imagesName;
     }
 
-    $product->category_id = $this->category_id;
-
     // Save translations
     $product->setTranslations('name', $this->name);
     $product->setTranslations('short_description', $this->short_description);
     $product->setTranslations('description', $this->description);
 
+    // Save product to database
     $product->save();
 
-    // Save attributes
+    // Save attributes as arrays
     foreach ($this->attribute_values as $key => $attribute_value) {
-        $avalues = explode(":", $attribute_value);
-        foreach ($avalues as $avalue) {
-            $attr_value = new AttributeValue();
-            $attr_value->product_attribute_id = $key;
-            $attr_value->value = $avalue;
-            $attr_value->product_id = $product->id;
-            $attr_value->save();
-        }
+        $attr_value = new AttributeValue();
+        $attr_value->product_attribute_id = $key;
+
+        // Store the value as a JSON-encoded array
+        $attr_value->value = json_encode(explode(":", $attribute_value));
+
+        $attr_value->product_id = $product->id;
+        $attr_value->save();
     }
 
     session()->flash('message', 'Product has been added');

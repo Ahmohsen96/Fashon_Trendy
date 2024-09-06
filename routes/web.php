@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GoogleSocialiteController;
+use App\Http\Controllers\PaymobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Livewire\AboutComponent;
 use App\Http\Livewire\Admin\AdminAddAttributeComponent;
@@ -13,13 +14,14 @@ use App\Http\Livewire\Admin\AdminContactComponent;
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\Admin\AdminEditAttributeComponent;
 use App\Http\Livewire\Admin\AdminEditCategoryComponent;
-use App\Http\Livewire\Admin\AdminEditHomeSlideComponent;
 
+use App\Http\Livewire\Admin\AdminEditHomeSlideComponent;
 use App\Http\Livewire\Admin\AdminEditProductComponent;
 use App\Http\Livewire\Admin\AdminHomeSliderComponent;
 use App\Http\Livewire\Admin\AdminOrderComponent;
 use App\Http\Livewire\Admin\AdminOrderDetailsComponent;
 use App\Http\Livewire\Admin\AdminProductComponent;
+use App\Http\Livewire\Admin\AdminNotificationComponent;
 use App\Http\Livewire\CartComponent;
 use App\Http\Livewire\CategoryComponent;
 use App\Http\Livewire\CheckoutComponent;
@@ -33,6 +35,7 @@ use App\Http\Livewire\User\UserDashboardComponent;
 use App\Http\Livewire\User\UserOrderDetailsComponent;
 use App\Http\Livewire\User\UserOrdersComponent;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -85,10 +88,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', UserDashboardComponent::class)->name('user.dashboard');
     Route::get('/user/orders', UserOrdersComponent::class)->name('user.orders');
     Route::get('/user/orders/{order_id}', UserOrderDetailsComponent::class)->name('user.orderdetails');
+
+    //Paymob Routes
+Route::get('/credit', [PaymobController::class, 'credit'])->name('checkout.credit'); // this route send all functions data to paymob
+Route::get('/callback', [PaymobController::class, 'callback'])->name('callback'); // this route get all reponse data to paymob
 });
 
 Route::middleware(['auth', 'authadmin'])->group(function () {
     Route::get('/admin/dashboard', AdminDashboardComponent::class)->name('admin.dashboard');
+    Route::get('/admin/notifications', AdminNotificationComponent::class)->name('admin.notification');
+
     Route::get('/admin/categories', AdminCategoriesComponent::class)->name('admin.categories');
     Route::get('/admin/categories/add', AdminAddCategoryComponent::class)->name('admin.categories.add');
     Route::get('/admin/categories/edit/{category_slug}/{scategory_slug?}', AdminEditCategoryComponent::class)->name('admin.categories.edit');

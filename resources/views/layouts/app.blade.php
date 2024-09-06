@@ -1,16 +1,21 @@
 
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" dir="{{ in_array(app()->getLocale(), config('laravellocalization.rtl_locales')) ? 'rtl' : 'ltr' }}">
+<!DOCTYPE html >
+<html lang="{{ app()->getLocale() }}" dir="{{ in_array(app()->getLocale(), config('laravellocalization.rtl_locales')) ? 'rtl' : 'ltr' }}" class="{{ session('theme') === 'dark' ? 'dark' : '' }}">
 
-<html class="no-js" lang="en">
+{{-- <html class="no-js" lang="en"> --}}
 
 <head>
     <meta charset="utf-8">
 <title>Fashon</title>
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="description" content="">
-<link rel="stylesheet" href="{{ asset(session('direction') === 'rtl' ? 'css/rtl.css' : 'css/app.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset(session('direction') === 'rtl' ? 'css/rtl.css' : 'css/app.css') }}"> --}}
 
+@if (session('direction') === 'rtl')
+<link rel="stylesheet" href="{{ asset('css/rtl.css') }}">
+@else
+<link rel="stylesheet" href="{{asset('css/app.css')}}">
+@endif
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,10 +29,14 @@
 @livewireStyles
 
 
+
+
 </head>
 
 <body>
     <header class="header-area header-style-1 header-height-2">
+
+
         <div class="header-top header-top-ptb-1 d-none d-lg-block">
             <div class="container">
                 <div class="row align-items-center">
@@ -56,6 +65,7 @@
                             </ul>
 
                         </div>
+
                     </div>
                     <div class="col-xl-6 col-lg-4">
                         <div class="text-center">
@@ -71,6 +81,8 @@
                     <div class="col-xl-3 col-lg-4">
                         <div class="header-info header-info-right">
                      @auth
+                     {{-- @livewire('notification-icon-component') --}}
+
                         <ul>
                                 <li><i class="fi-rs-user"></i>{{Auth::user()->name}}  /
                                 <form method="post" action="{{route('logout')}}"in>
@@ -89,6 +101,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
             <div class="container">
                 <div class="header-wrap">
@@ -106,14 +120,25 @@
                                         <span class="pro-count blue">0</span>
                                     </a>
                                 </div>
+                                @livewire('notification-icon-component')
+
                                   @livewire('cart-icon-component')
+
+                                  <livewire:theme-switcher />
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         @livewire('header-component')
+
+        {{-- @livewire('chat-g-p-t-component') --}}
+
+        {{-- <livewire:chat-gpt-component /> --}}
+
     </header>
     <div class="mobile-header-active mobile-header-wrapper-style">
         <div class="mobile-header-wrapper-inner">
@@ -253,12 +278,101 @@
 <script src="{{asset('assets/js/plugins/jquery.vticker-min.js')}}"></script>
 <script src="{{asset('assets/js/plugins/jquery.theia.sticky.js')}}"></script>
 <script src="{{asset('assets/js/plugins/jquery.elevatezoom.js')}}"></script>
+{{-- <script src="{{asset('assets/js/plugins/jquery.elevatezoom.js')}}"></script> --}}
 <!-- Template  JS -->
 <script src="{{asset('assets/js/main.js?v=3.3')}}"></script>
 <script src="{{asset('assets/js/shop.js?v=3.3')}}"></script>
 
+
+  <script>
+ function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+    console.log("Toggle Dark Mode Button Clicked");
+
+    if (document.documentElement.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        console.log("Dark mode enabled");
+    } else {
+        localStorage.setItem('theme', 'light');
+        console.log("Light mode enabled");
+    }
+}
+
+// Load the preferred theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+        console.log("Loaded dark mode");
+    } else {
+        document.documentElement.classList.remove('dark');
+        console.log("Loaded light mode");
+    }
+});
+
+    </script>
+
+
 @livewireScripts
 @stack('scripts')
+
+
+
+{{-- <script>
+    Echo.channel('notifications')
+        .listen('NotificationSent', (event) => {
+            alert('New notification: ' + event.notification);
+            // Update your Livewire component here if needed
+        });
+</script> --}}
+
+
+{{-- <script src="https://js.pusher.com/latest/pusher.min.js"></script>
+<script>
+
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('3c6e097681e91b35515d', {
+    cluster: 'mt1'
+  });
+
+  var channel = pusher.subscribe('notifications');
+  channel.bind('NotificationSent', function(data) {
+    alert(JSON.stringify(data));
+  });
+</script> --}}
+
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('3c6e097681e91b35515d', {
+    cluster: 'mt1'
+  });
+
+  var channel = pusher.subscribe('notifications');
+  channel.bind('NotificationSent', function(data) {
+    // Use SweetAlert2 for modern notification UI
+    Swal.fire({
+  title: 'Success!',
+  text: data.message,
+  icon: 'success',
+  timer: 8000,
+  showConfirmButton: false,
+  toast: true,
+  position: 'top-end'
+});
+  });
+</script>
+
+
+
+
+
+
+
 
 </body>
 

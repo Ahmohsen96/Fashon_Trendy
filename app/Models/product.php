@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
+use App\Models\Color;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -40,5 +41,9 @@ public function updateStockStatus()
     $this->save();
 }
 
+public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'color_product');
+    }
 
 }

@@ -180,21 +180,18 @@
                     <div class="choose-payment-methods">
                         <label class="payment-method">
                             <input name="payment-method" id="payment-method-bank" value="cod" type="radio" wire:model="paymentmode">
-                            <span>  {{ trans('checkout.cash on delivery ') }}</span>
-                            {{--  <span class="payment-desc">order now pay on delviry</span>  --}}
+                            <span>{{ trans('checkout.cash on delivery') }}</span>
                         </label>
-                        <label class="payment-method">
+                        {{-- <label class="payment-method">
                             <input name="payment-method" id="payment-method-visa" value="card" type="radio" wire:model="paymentmode">
-                            <span> {{ trans('checkout.credit') }}</span>
-                            {{--  <span class="payment-desc">There are many variations of passages of Lorem Ipsum available</span>  --}}
-                        </label>
+                            <span>{{ trans('checkout.credit') }}</span>
+                        </label> --}}
                         <label class="payment-method">
-                            <input name="payment-method" id="payment-method-paypal" value="paypal" type="radio" wire:model="paymentmode">
-                            <span>  {{ trans('checkout.Paypal') }}</span>
-                            {{--  <span class="payment-desc">You can pay with your credit</span>  --}}
-                            {{--  <span class="payment-desc">card if you don't have a paypal account</span>  --}}
+                            <input name="payment-method" id="payment-method-paymob" value="paymob" type="radio" wire:model="paymentmode">
+                            <span>{{ trans('checkout.paymob') }}</span>
                         </label>
                     </div>
+
                     @if(Session::has('checkout'))
 
                     <p class="summary-info grand-total"><span>{{ trans('checkout.Grand Total') }}</span> <span class="grand-total-price">${{Session::get('checkout')['total']}}</span></p>

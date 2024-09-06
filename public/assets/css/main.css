@@ -603,6 +603,19 @@ body {
   font-weight: 400;
 }
 
+body.light-theme {
+    background-color: #fff;
+    color: #000;
+    /* Add more light theme styles */
+}
+
+/* Dark Theme */
+body.dark-theme {
+    background-color: #000;
+    color: #fff;
+    /* Add more dark theme styles */
+}
+
 h1,
 h2,
 h3,

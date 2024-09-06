@@ -36,7 +36,7 @@ class User extends Authenticatable
         'two_factor_recovery_codes',
         'two_factor_secret'
     ];
-    
+
     protected $appends = [
         'profile_photo_url',
     ];
@@ -49,4 +49,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo_url ?? 'default-photo-url';
+    }
 }

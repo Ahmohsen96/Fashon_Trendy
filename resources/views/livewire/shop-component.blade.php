@@ -198,7 +198,7 @@
                             <div class="list-group">
                                 <div class="mt-10 mb-10 list-group-item">
                                     <label class="fw-900">Color</label>
-                                    <div class="custome-checkbox">
+                                    {{-- <div class="custome-checkbox">
                                         <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox1" value="">
                                         <label class="form-check-label" for="exampleCheckbox1"><span>Red (56)</span></label>
                                         <br>
@@ -207,7 +207,21 @@
                                         <br>
                                         <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="">
                                         <label class="form-check-label" for="exampleCheckbox3"><span>Blue (54)</span></label>
+                                    </div> --}}
+
+                                    <div>
+                                        <label for="colorFilter">Filter by Color:</label>
+                                        <select wire:model="selectedColor" id="colorFilter">
+                                            <option value="">All Colors</option>
+                                            @foreach($availableColors as $color)
+                                                <option value="{{ $color }}">{{ ucfirst($color) }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
+
+
+
+
                                     <label class="fw-900 mt-15">Item Condition</label>
                                     <div class="custome-checkbox">
                                         <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox11" value="">
